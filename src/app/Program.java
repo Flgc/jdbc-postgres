@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import db.DB;
+import entities.Order;
+import entities.OrderStatus;
 import entities.Product;
 
 public class Program {
@@ -16,16 +18,27 @@ public class Program {
 	
 		Statement st = conn.createStatement();
 			
-		ResultSet rs = st.executeQuery("select * from tb_product");
+		ResultSet rs = st.executeQuery("select * from tb_order");
 			
 		while (rs.next()) {
 			
-			Product p = instantiateProduct(rs);
+			Order order = instantiateOrder(rs);
 			
-			System.out.println(p);
+			System.out.println(order);
 		}
 	}
 	
+	private static Order instantiateOrder(ResultSet rs) throws SQLException {
+		
+		Order order = new Order();
+		order.setId(rs.getLong("id"));
+		order.setLatitude(rs.getDouble("latitude"));
+		order.setLongitude(rs.getDouble("longitude"));
+		order.setMoment(rs.getTimestamp("moment").toInstant());
+		order.setStatus(OrderStatus.values()[rs.getInt("status")]);
+		return order;
+	}
+
 	private static Product instantiateProduct(ResultSet rs) throws SQLException {
 		
 		Product p = new Product();
@@ -37,4 +50,5 @@ public class Program {
 		
 		return p;
 	} 
+	
 }
