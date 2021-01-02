@@ -64,5 +64,4 @@ public class Order {
 		return "Order [id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + ", moment=" + moment
 				+ ", status=" + status + "]";
 	}
-
 }
